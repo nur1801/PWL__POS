@@ -76,7 +76,18 @@ class UserController extends Controller
         // $user = UserModel::findOrFail(1); // ambil semua data dari m_user
         // return view('user', ['data' => $user]);
 
-        $user = UserModel::where('username', 'manager9')->firstOrFail(); 
+        // $user = UserModel::where('username', 'manager9')->firstOrFail(); 
+        // return view('user', ['data' => $user]);
+        // ----------------------------------------------------------------
+
+        // JS 04 - Pratikum 2.3 - Retrieving Aggregrates
+        // coba akses ke model UserModel
+        // $user = UserModel::where('level_id', 2)->count();
+        // dd($user);
+        // return view('user', ['data' => $user]);
+
+        $user = UserModel::where('level_id', 2)->count();
+        
         return view('user', ['data' => $user]);
     }
 }
