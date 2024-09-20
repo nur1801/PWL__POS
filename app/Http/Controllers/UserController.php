@@ -186,9 +186,16 @@ class UserController extends Controller
         // dd($user->wasChanged(['nama', 'username'])); // true
         // ---------------------------------------------------------
 
-        // JS 04 - Pratikum 2.6 - Create, Read, Update, Delete (CRUD)
-        $user = UserModel::all();
+        // JS 04 - Pratikum 2.7 - Relationship
+        // $user = UserModel::with('level')->get();
+        // dd($user);
+
+        $user = UserModel::with('level')->get();
         return view('user', ['data' => $user]);
+
+        // JS 04 - Pratikum 2.6 - Create, Read, Update, Delete (CRUD)
+        // $user = UserModel::all();
+        // return view('user', ['data' => $user]);
     }
     public function tambah()
     {
