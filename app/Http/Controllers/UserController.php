@@ -65,9 +65,18 @@ class UserController extends Controller
         // });
         // return view('user', ['data' => $user]);
 
-        $user = UserModel::findOr(20, ['username', 'nama'], function(){
-            abort(404);
-        });
+        // $user = UserModel::findOr(20, ['username', 'nama'], function(){
+        //     abort(404);
+        // });
+        // return view('user', ['data' => $user]);
+        // --------------------------------------------------------------
+
+        // JS04 - Pratikum 2.2 - Not Found Exceptions
+        // coba akses model UserModel
+        // $user = UserModel::findOrFail(1); // ambil semua data dari m_user
+        // return view('user', ['data' => $user]);
+
+        $user = UserModel::where('username', 'manager9')->firstOrFail(); 
         return view('user', ['data' => $user]);
     }
 }
