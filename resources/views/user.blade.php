@@ -31,7 +31,7 @@
             {{-- --------------------------------------------------- --}}
 
             {{-- JS 04 - Pratikum 2.3 - Retrieving Aggregrates --}}
-            <thead>
+            {{-- <thead>
                 <tr>
                     <th>Jumlah Pengguna</th>
                 </tr>
@@ -40,7 +40,22 @@
                 <tr>
                     <td>{{ $data }}</td>
                 </tr>
-            </tbody>
+            </tbody> --}}
+            {{-- ------------------------------------------------ --}}
+
+            {{-- JS 04 - Pratikum 2.4 - Retieving or Creating Models --}}
+            <tr>
+                <td>ID</td>
+                <td>Username</td>
+                <td>Nama</td>
+                <td>ID Level Pengguna</td>
+            </tr>
+            <tr>
+                <td>{{ $data ->user_id }}</td>
+                <td>{{ $data ->username }}</td>
+                <td>{{ $data ->nama }}</td>
+                <td>{{ $data ->level_id }}</td>
+            </tr>
         </table>
     </body>
 </html>
