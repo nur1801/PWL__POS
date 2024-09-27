@@ -35,6 +35,7 @@ Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
 
 Route::get('/', [WelcomeController::class, 'index']);
 
+// [JS 05]
 Route::group(['prefix' => 'user'], function(){
     Route::get('/', [UserController::class, 'index']); // menampilkan halaman untuk user
     Route::post('/list', [UserController::class, 'list']); // menampilkan data user dalam bentuk json untuk datatables
@@ -44,4 +45,16 @@ Route::group(['prefix' => 'user'], function(){
     Route::get('/{id}/edit', [UserController::class, 'edit']); // menampilkan halaman form edit user
     Route::put('/{id}', [UserController::class, 'update']); // menyimpan perubahan data user
     Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
+});
+
+// [JS05] TUGAS PRATIKUM
+Route::group(['prefix' => 'level'], function() {
+    Route::get('/', [LevelController::class, 'index']);          // menampilkan halaman awal level
+    Route::post('/list', [LevelController::class, 'list']);      // menampilkan data level dalam bentuk json untuk datables
+    Route::get('/create', [LevelController::class, 'create']);   // menampilkan halaman form tambah level
+    Route::post('/', [LevelController::class, 'store']);         // menyimpan data level baru
+    Route::get('/{id}', [LevelController::class, 'show']);       // menampilkan data detail level
+    Route::get('/{id}/edit', [LevelController::class, 'edit']);  // menampilkan halaman form edit level
+    Route::put('/{id}', [LevelController::class, 'update']);     // menyimpan perubahan data level
+    Route::delete('/{id}', [LevelController::class, 'destroy']); // menghapus data level
 });
