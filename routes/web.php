@@ -47,6 +47,8 @@ Route::group(['prefix' => 'user'], function(){
     Route::get('/create_ajax',[UserController::class, 'create_ajax']);//menampilkan halaman form tambah user ajax
     Route::post('/ajax',[UserController::class, 'store_ajax']);//meyimpan data user baru ajax
     Route::get('/{id}', [UserController::class, 'show']); // menampilkan detail user
+    // Modal Ajax Detail Data (Data User)
+    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
     Route::get('/{id}/edit', [UserController::class, 'edit']); // menampilkan halaman form edit user
     Route::put('/{id}', [UserController::class, 'update']); // menyimpan perubahan data user
     // [JS06] Pratikum 2 - Modal Ajax Edit Data (Data User)
