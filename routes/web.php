@@ -52,6 +52,9 @@ Route::group(['prefix' => 'user'], function(){
     // [JS06] Pratikum 2 - Modal Ajax Edit Data (Data User)
     Route::get('/{id}/edit_ajax',[UserController::class,'edit_ajax']); //menampilkan halaman form edit user ajax
     Route::put('/{id}/update_ajax',[UserController::class,'update_ajax']);//meyimpan perubahan data user ajax
+    // [JS06] Pratikum 2 - Modal Ajax Hapus Data (Data User)
+    Route::get('/{id}/delete_ajax',[UserController::class,'confirm_ajax']);//untuk menampilkan form confirm delete user Ajax
+    Route::delete('/{id}/delete_ajax',[UserController::class,'delete_ajax']);//untuk hapus data user Ajax
     Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
 });
 
