@@ -48,7 +48,7 @@ Route::group(['prefix' => 'user'], function(){
     Route::post('/ajax',[UserController::class, 'store_ajax']);//meyimpan data user baru ajax
     Route::get('/{id}', [UserController::class, 'show']); // menampilkan detail user
     // Modal Ajax Detail Data (Data User)
-    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
+    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']); // menampilkan detail user ajax
     Route::get('/{id}/edit', [UserController::class, 'edit']); // menampilkan halaman form edit user
     Route::put('/{id}', [UserController::class, 'update']); // menyimpan perubahan data user
     // [JS06] Pratikum 2 - Modal Ajax Edit Data (Data User)
@@ -67,9 +67,20 @@ Route::group(['prefix' => 'level'], function() {
     Route::post('/list', [LevelController::class, 'list']);      // menampilkan data level dalam bentuk json untuk datables
     Route::get('/create', [LevelController::class, 'create']);   // menampilkan halaman form tambah level
     Route::post('/', [LevelController::class, 'store']);         // menyimpan data level baru
+    // [JS06] Tugas Pratikum - Modal Ajax Tambah Data (Data Level)
+    Route::get('/create_ajax', [LevelController::class, 'create_ajax']); // Menampilkan halaman form tambah user Ajax
+    Route::post('/ajax', [LevelController::class, 'store_ajax']);     // Menyimpan data user baru Ajax
     Route::get('/{id}', [LevelController::class, 'show']);       // menampilkan data detail level
+    // [JS06] Tugas Pratikum - Modal Ajax Tambah Detail Data (Data Level)
+    Route::get('/{id}/show_ajax', [LevelController :: class, 'show_ajax']); // menampilkan detail level ajax
     Route::get('/{id}/edit', [LevelController::class, 'edit']);  // menampilkan halaman form edit level
     Route::put('/{id}', [LevelController::class, 'update']);     // menyimpan perubahan data level
+    // [JS06] Tugas Pratikum - Modal Ajax Edit Data (Data Level)
+    Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax']); // Menampilkan halaman form edit level Ajax
+    Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax']); // Menyimpan perubahan data level Ajax
+    // [JS06] Tugas Pratikum - Modal Ajax Hapus Data (Data Level)
+    Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']); // Untuk menampilkan form konfirmasi delete user Ajax
+    Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']); // Untuk menghapus data user Ajax
     Route::delete('/{id}', [LevelController::class, 'destroy']); // menghapus data level
 });
 
