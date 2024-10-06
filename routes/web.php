@@ -115,7 +115,7 @@ Route::group(['prefix' => 'supplier'], function () {
     Route::post('/', [SupplierController::class, 'store']);              // menyimpan data supplier baru
     // [JS06] Tugas Pratikum - Modal Ajax Tambah Data (Data Supllier)
     Route::get('/create_ajax', [SupplierController::class, 'create_ajax']); 
-    Route::post('/ajax', [SupplierController::class, 'store_ajax']);                 // menyimpan data barang baru
+    Route::post('/ajax', [SupplierController::class, 'store_ajax']);                 // menyimpan data supplier baru
     Route::get('/{id}', [SupplierController::class, 'show']);            // menampilkan detail supplier
     // [JS06] Tugas Pratikum - Modal Ajax Detail Data (Data Supllier)
     Route::get('/{id}/show_ajax', [SupplierController :: class, 'show_ajax']);
@@ -136,8 +136,19 @@ Route::group(['prefix' => 'barang'], function () {
     Route::post('/list', [BarangController::class, 'list']);          // menampilkan data barang dalam bentuk json untuk datatables
     Route::get('/create', [BarangController::class, 'create']);       // menampilkan halaman form tambah barang
     Route::post('/', [BarangController::class, 'store']);              // menyimpan data barang baru
+    // [JS06] Tugas Pratikum m_barang
+    Route::get('/create_ajax', [BarangController::class, 'create_ajax']); 
+    Route::post('/ajax', [BarangController::class, 'store_ajax']);                 // menyimpan data barang baru
     Route::get('/{id}', [BarangController::class, 'show']);            // menampilkan detail barang
+    // Tugas Pratikum - Modal Ajax Detail Data (Data Barang)
+    Route::get('/{id}/show_ajax', [BarangController :: class, 'show_ajax']);
     Route::get('/{id}/edit', [BarangController::class, 'edit']);       // menampilkan halaman form edit barang
     Route::put('/{id}', [BarangController::class, 'update']);          // menyimpan perubahan data barang
+    // [JS06] Tugas Pratikum - Modal Ajax Edit Data (Data Barang)
+    Route::get('/{id}/edit_ajax', [BarangController::class, 'edit_ajax']); 
+    Route::put('/{id}/update_ajax', [BarangController::class, 'update_ajax']); 
+    // [JS06] Tugas Pratikum - Modal Ajax Hapus Data (Data Barang)
+    Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']); 
+    Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']);
     Route::delete('/{id}', [BarangController::class, 'destroy']);      // menghapus data barang
 });
