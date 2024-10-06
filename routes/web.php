@@ -71,7 +71,7 @@ Route::group(['prefix' => 'level'], function() {
     Route::get('/create_ajax', [LevelController::class, 'create_ajax']); // Menampilkan halaman form tambah user Ajax
     Route::post('/ajax', [LevelController::class, 'store_ajax']);     // Menyimpan data user baru Ajax
     Route::get('/{id}', [LevelController::class, 'show']);       // menampilkan data detail level
-    // [JS06] Tugas Pratikum - Modal Ajax Tambah Detail Data (Data Level)
+    // [JS06] Tugas Pratikum - Modal Ajax Detail Data (Data Level)
     Route::get('/{id}/show_ajax', [LevelController :: class, 'show_ajax']); // menampilkan detail level ajax
     Route::get('/{id}/edit', [LevelController::class, 'edit']);  // menampilkan halaman form edit level
     Route::put('/{id}', [LevelController::class, 'update']);     // menyimpan perubahan data level
@@ -90,9 +90,20 @@ Route::group(['prefix' => 'kategori'], function () {
     Route::post('/list', [KategoriController::class, 'list']);
     Route::get('/create', [KategoriController::class, 'create']);
     Route::post('/', [KategoriController::class, 'store']);
+    // [JS06] Tugas Pratikum - Modal Ajax Tambah Data (Data Kategori)
+    Route::get('/create_ajax', [KategoriController::class, 'create_ajax']); 
+    Route::post('/ajax', [KategoriController::class, 'store_ajax']); 
     Route::get('/{id}', [KategoriController::class, 'show']);
+    // [JS06] Tugas Pratikum - Modal Ajax Detail Data (Data Kategori)
+    Route::get('/{id}/show_ajax', [KategoriController :: class, 'show_ajax']);
     Route::get('/{id}/edit', [KategoriController::class, 'edit']);
     Route::put('/{id}', [KategoriController::class, 'update']);
+    // [JS06] Tugas Pratikum - Modal Ajax Edit Data (Data Kategori)
+    Route::get('/{id}/edit_ajax', [KategoriController::class, 'edit_ajax']); 
+    Route::put('/{id}/update_ajax', [KategoriController::class, 'update_ajax']); 
+    // [JS06] Tugas Pratikum - Modal Ajax Hapus Data (Data Kategori)
+    Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']); 
+    Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']); 
     Route::delete('/{id}', [KategoriController::class, 'destroy']);
 });
 
