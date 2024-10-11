@@ -50,7 +50,7 @@
     }
     var dataSupplier;
     $(document).ready(function() {
-      var dataSupplier = $('#table_supplier').DataTable({
+       dataSupplier = $('#table_supplier').DataTable({
           serverSide: true,
           ajax: {
               "url": "{{ url('supplier/list') }}",

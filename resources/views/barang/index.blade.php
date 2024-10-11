@@ -80,8 +80,9 @@
 
             return 'Rp ' + rupiah;
         }
+        var dataBarang;
     $(document).ready(function() {
-      var dataBarang = $('#table_barang').DataTable({
+       dataBarang = $('#table_barang').DataTable({
           serverSide: true,
           ajax: {
               "url": "{{ url('barang/list') }}",

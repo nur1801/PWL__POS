@@ -45,8 +45,9 @@
             });
         }
         // ---------------------------------
+        var dataUser;
         $(document).ready(function() {
-            var dataUser = $('#table_level').DataTable({
+             dataUser = $('#table_level').DataTable({
                 // serverSide: true, jika ingin menggunakan server side processing
                 serverSide: true,
                 ajax: {
