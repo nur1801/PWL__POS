@@ -5,6 +5,8 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
+                <button onclick="modalAction('{{ url('user/import') }}')" class="btn btn-sm btn-info mt-1">Import
+                    User</button>
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('user/create') }}">Tambah</a>
                 {{-- [JS06] Pratikum 1 - Modal Ajax Tambah Data (Data User) --}}
                 <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah
@@ -22,9 +24,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group row">
-                        <label class="col-1 control-label col-form-label">Filter:</label>
+                        <label class="col-1 control-label col-form-label">Filter </label>
                         <div class="col-3">
-                            <select class="form-control" id="level_id" name="level_id" required>
+                            <select class="form-control" id="leve_id" name="leve_id" required>
                                 <option value="">- Semua -</option>
                                 @foreach ($level as $item)
                                     <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
@@ -35,18 +37,19 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Nama</th>
-                        <th>Level Pengguna</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Nama</th>
+                            <th>Level Pengguna</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
     </div>
     {{-- [JS06] Pratikum 1 - Modal Ajax Tambah Data (Data User) --}}
     <div id="myModal" class="modal fade animate shake" tabindex="-1" role="dialog" databackdrop="static"
@@ -67,7 +70,7 @@
 
         var dataUser;
         $(document).ready(function() {
-             dataUser = $('#table_user').DataTable({
+            dataUser = $('#table_user').DataTable({
                 // serverSide: true, jika ingin menggunakan server side processing
                 serverSide: true,
                 ajax: {
@@ -78,8 +81,7 @@
                         d.level_id = $('#level_id').val();
                     }
                 },
-                columns: [
-                    {
+                columns: [{
                         // nomor urut dari laravel datatable addIndexColumn()
                         data: "DT_RowIndex",
                         className: "text-center",
@@ -116,7 +118,7 @@
                 ]
             });
 
-            $('#level_id').on('change', function () {
+            $('#level_id').on('change', function() {
                 dataUser.ajax.reload();
             });
 

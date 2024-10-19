@@ -172,6 +172,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/user/create_ajax', [UserController::class, 'create_ajax']); // Menampilkan halaman form tambah user Ajax
         Route::post('/user/ajax', [UserController::class, 'store_ajax']); // Menyimpan data user baru Ajax
         Route::get('/user/{id}', [UserController::class, 'show']);           // menampilkan detail user
+        Route::get('/user/{id}/show_ajax', [UserController :: class, 'show_ajax']);       // menampilkan detail user
         Route::get('/user/{id}/edit', [UserController::class, 'edit']);     // menampilkan halaman form edit user
         Route::put('/user/{id}', [UserController::class, 'update']);         // menyiapkan perubahan data user
         Route::get('/user/{id}/edit_ajax', [UserController::class, 'edit_ajax']); // Menampilkan halaman form edit user Ajax 
@@ -179,6 +180,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/user/{id}/delete_ajax', [UserController::class, 'confirm_ajax']); // Untuk tampilkan form confirm delete user Ajax
         Route::delete('/user/{id}/delete_ajax', [UserController::class, 'delete_ajax']); // Untuk hapus data user Ajax
         Route::delete('/user/{id}', [UserController::class, 'destroy']);     // menghapus data user
+        Route::get('/user/import', [UserController::class, 'import']);     // ajax form upload excel
+        Route::post('/user/import_ajax', [UserController::class, 'import_ajax']);     // ajax import excel 
     });
 
     Route::middleware(['authorize:ADM'])->group(function () {
