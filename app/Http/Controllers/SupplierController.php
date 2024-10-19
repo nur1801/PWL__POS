@@ -273,10 +273,11 @@ class SupplierController extends Controller
         }
     }
 
-    public function show_ajax(string $id) {
+    public function show_ajax(string $id)
+    {
         // Cari supplier berdasarkan id
         $supplier = SupplierModel::find($id);
-    
+
         // Periksa apakah supplier ditemukan
         if ($supplier) {
             // Tampilkan halaman show_ajax dengan data supplier

@@ -321,21 +321,10 @@ class BarangController extends Controller
          }
     }
 
-    public function show_ajax(string $id) {
-        // Cari barang berdasarkan id
-        $barang = BarangModel::find($id);
-    
-        // Periksa apakah barang ditemukan
-        if ($barang) {
-            // Tampilkan halaman show_ajax dengan data barang
-            return view('barang.show_ajax', ['barang' => $barang]);
-        } else {
-            // Tampilkan pesan kesalahan jika barang tidak ditemukan
-            return response()->json([
-                'status' => false,
-                'message' => 'Data tidak ditemukan'
-            ]);
-        }
+    public function show_ajax(string $barang_id)
+    {
+        $barang = barangmodel::find($barang_id);
+        return view('barang.show_ajax', ['barang' => $barang]);
     }
 
     public function import()

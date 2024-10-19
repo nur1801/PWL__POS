@@ -192,6 +192,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/level/ajax', [LevelController::class, 'store_ajax']);
         Route::post('/level', [LevelController::class, 'store']);
         Route::get('/level/{id}', [LevelController::class, 'show']);
+        Route::get('/level/{id}/show_ajax', [LevelController :: class, 'show_ajax']);
         Route::get('/level/{id}/edit', [LevelController::class, 'edit']);
         Route::put('/level/{id}', [LevelController::class, 'update']);
         Route::get('/level/{id}/edit_ajax', [LevelController::class, 'edit_ajax']);
@@ -211,6 +212,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/kategori/ajax', [KategoriController::class, 'store_ajax']); // Menyimpan data kategori baru Ajax
         Route::post('/kategori', [KategoriController::class, 'store']);             // menyimpan data kategori baru
         Route::get('/kategori/{id}', [KategoriController::class, 'show']);           // menampilkan detail kategori
+        Route::get('/kategori/{id}/show_ajax', [KategoriController :: class, 'show_ajax']);
         Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit']);     // menampilkan halaman form edit kategori
         Route::put('/kategori/{id}', [KategoriController::class, 'update']);         // menyiapkan perubahan data kategori
         Route::get('/kategori/{id}/edit_ajax', [KategoriController::class, 'edit_ajax']); // Menampilkan halaman form edit kategori Ajax 
@@ -218,6 +220,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/kategori/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']); // Untuk tampilkan form confirm delete kategori Ajax
         Route::delete('/kategori/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']); // Untuk hapus data kategori Ajax
         Route::delete('/kategori/{id}', [KategoriController::class, 'destroy']);     // menghapus data kategori
+        Route::get('/kategori/import', [UserController::class, 'import']);     // ajax form upload excel
+        Route::post('/kategori/import_ajax', [UserController::class, 'import_ajax']);     // ajax import excel 
     });
 
     // [JS07]Pratikum 3 - Implementasi Multi-Level Authorization di Laravel dengan Middleware
@@ -230,6 +234,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/barang/ajax', [BarangController::class, 'store_ajax']); // Menyimpan data barang baru Ajax
         Route::post('/barang', [BarangController::class, 'store']);             // menyimpan data barang baru
         Route::get('/barang/{id}', [BarangController::class, 'show']);           // menampilkan detail barang
+        Route::get('/barang/{id}/show_ajax', [BarangController :: class, 'show_ajax']);
         Route::get('/barang/{id}/edit', [BarangController::class, 'edit']);     // menampilkan halaman form edit barang
         Route::put('/barang/{id}', [BarangController::class, 'update']);         // menyiapkan perubahan data barang
         Route::get('/barang/{id}/edit_ajax', [BarangController::class, 'edit_ajax']); // Menampilkan halaman form edit barang Ajax 
@@ -249,6 +254,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/supplier/ajax', [SupplierController::class, 'store_ajax']); // Menyimpan data supplier baru Ajax
         Route::post('/supplier', [SupplierController::class, 'store']);             // menyimpan data supplier baru
         Route::get('/supplier/{id}', [SupplierController::class, 'show']);           // menampilkan detail supplier
+        Route::get('/supplier/{id}/show_ajax', [SupplierController :: class, 'show_ajax']);
         Route::get('/supplier/{id}/edit', [SupplierController::class, 'edit']);     // menampilkan halaman form edit supplier
         Route::put('/supplier/{id}', [SupplierController::class, 'update']);         // menyiapkan perubahan data supplier
         Route::get('/supplier/{id}/edit_ajax', [SupplierController::class, 'edit_ajax']); // Menampilkan halaman form edit supplier Ajax 

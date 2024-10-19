@@ -302,10 +302,11 @@ class LevelController extends Controller
             return redirect('/');
         }
     }
-    public function show_ajax(string $id) {
+    public function show_ajax(string $id)
+    {
         // Cari level berdasarkan id
         $level = LevelModel::find($id);
-    
+
         // Periksa apakah level ditemukan
         if ($level) {
             // Tampilkan halaman show_ajax dengan data level

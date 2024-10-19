@@ -284,10 +284,11 @@ class KategoriController extends Controller
         }
     }
 
-    public function show_ajax(string $id) {
+    public function show_ajax(string $id)
+    {
         // Cari kategori berdasarkan id
         $kategori = KategoriModel::find($id);
-    
+
         // Periksa apakah kategori ditemukan
         if ($kategori) {
             // Tampilkan halaman show_ajax dengan data kategori
