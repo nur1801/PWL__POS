@@ -224,6 +224,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/kategori/{id}', [KategoriController::class, 'destroy']);     // menghapus data kategori
         Route::get('/kategori/import', [KategoriController::class, 'import']);     // ajax form upload excel
         Route::post('/kategori/import_ajax', [KategoriController::class, 'import_ajax']);     // ajax import excel 
+        Route::get('/kategori/export_excel', [KategoriController::class, 'export_excel']);
     });
 
     // [JS07]Pratikum 3 - Implementasi Multi-Level Authorization di Laravel dengan Middleware
