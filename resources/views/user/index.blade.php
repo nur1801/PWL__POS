@@ -7,6 +7,8 @@
             <div class="card-tools">
                 <a class="btn btn-sm btn-primary mt-1" h href="{{ url('/user/export_excel') }}" class="btn btn-primary"><i
                     class="fa fa-file-excel"></i> Export User</a>
+                    <a class="btn btn-sm btn-warning mt-1" href="{{ url('/user/export_pdf') }}" class="btn btn-warning"><i
+                        class="fa fa-file-pdf"></i> Export User</a>
                 <button onclick="modalAction('{{ url('user/import') }}')" class="btn btn-sm btn-info mt-1">Import
                     User</button>
                 {{-- [JS06] Pratikum 1 - Modal Ajax Tambah Data (Data User) --}}
