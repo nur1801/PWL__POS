@@ -8,6 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\KategoriModel;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KategoriController extends Controller
 {
@@ -54,7 +55,7 @@ class KategoriController extends Controller
     public function list(Request $request)
     {
         $kategoris = KategoriModel::select('kategori_id', 'kategori_nama');
-        
+
         return DataTables::of($kategoris)
             ->addIndexColumn()
             ->addColumn('aksi', function ($kategori) {
@@ -415,4 +416,19 @@ class KategoriController extends Controller
         $writer->save('php://output');
         exit;
     } // end function export excel
+
+    public function export_pdf()
+    {
+        $kategori = kategoriModel::select('kategori_kode', 'kategori_nama')
+            ->get();
+
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        $pdf = Pdf::loadView('kategori.export_pdf', ['kategori' => $kategori]);
+
+        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+        $pdf->render();
+
+        return $pdf->stream('Data kategori ' . date('Y-m-d H:i:s') . '.pdf');
+    }
 }
