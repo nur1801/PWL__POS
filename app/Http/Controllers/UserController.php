@@ -91,7 +91,7 @@ class UserController extends Controller
         // return view('user', ['data' => $user]);
 
         // $user = UserModel::where('level_id', 2)->count();
-        
+
         // return view('user', ['data' => $user]);
         // ---------------------------------------------------------------
 
@@ -155,7 +155,7 @@ class UserController extends Controller
         // ]);
 
         // $user->username ='manager56';
- 
+
         // $user->isDirty(); // true
         // $user->isDirty('username'); // true
         // $user->isDirty('nama'); // false
@@ -182,7 +182,7 @@ class UserController extends Controller
         // $user->username ='manager12';
 
         // $user->save();
- 
+
         // $user->wasChanged(); // true
         // $user->wasChanged('username'); // true
         // $user->wasChanged(['username', 'level_id']); // true
@@ -203,7 +203,7 @@ class UserController extends Controller
 
         // JS05 - Pratikum 3 - Implementasi jQuery Datatable di AdminLTE
         // Menampilkan halaman user
-        
+
         $breadcrumb = (object) [
             'title' => 'Daftar User',
             'list' => ['Home', 'User']
@@ -218,8 +218,6 @@ class UserController extends Controller
         $level = LevelModel::all(); // ambil data level untuk filter level
 
         return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
-
-
     }
     // public function tambah()
     // {
@@ -268,7 +266,7 @@ class UserController extends Controller
     // {
     //     $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
     //         ->with('level');
-        
+
     //     // Filter data user bedasarkan level_id
     //     if ($request->level_id) {
     //         $users->where('level_id', $request->level_id);
@@ -409,7 +407,7 @@ class UserController extends Controller
     {
         $request->validate([
             // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_user kolom username
-            'username' => 'required|string |min:3|unique:m_user,username,'.$id.',user_id',
+            'username' => 'required|string |min:3|unique:m_user,username,' . $id . ',user_id',
             'nama' => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
             'password' => 'required|min:5', // password harus diisi dan minimal 5 karakter
             'level_id' => 'required|integer' // level_id harus diisi dan berupa angka
@@ -529,7 +527,7 @@ class UserController extends Controller
     }
 
     // [JS06] Pratikum 3 Modal Ajax Hapus Data (Data User)
-    public function confirm_ajax(string $id) 
+    public function confirm_ajax(string $id)
     {
         $user = UserModel::find($id);
 
@@ -539,11 +537,9 @@ class UserController extends Controller
     public function delete_ajax(Request $request, $id)
     {
         //cek apakah request dari ajax
-        if($request->ajax() || $request->wantsJson())
-        {
+        if ($request->ajax() || $request->wantsJson()) {
             $user = UserModel::find($id);
-            if($user)
-            {
+            if ($user) {
                 $user->delete();
                 return response()->json([
                     'status' => true,
@@ -641,4 +637,61 @@ class UserController extends Controller
         }
         return redirect('/');
     }
+
+    public function export_excel()
+    {
+        // ambil data user yang akan di export
+        $user = UserModel::select('level_id', 'username', 'nama', 'password')
+            ->orderBy('level_id')
+            ->with('level')
+            ->get();
+        // load library excel
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+
+        $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
+
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Username');
+        $sheet->setCellValue('C1', 'Nama');
+        $sheet->setCellValue('D1', 'Password');
+        $sheet->setCellValue('E1', 'Level');
+
+        $sheet->getStyle('A1:E1')->getFont()->setBold(true); // bold header
+        $no = 1;  // nomor data dimulai dari 1
+        $baris = 2; // baris data dimulai dari baris ke 2
+
+        foreach ($user as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->username);
+            $sheet->setCellValue('C' . $baris, $value->nama);
+            $sheet->setCellValue('D' . $baris, $value->password);
+            $sheet->setCellValue('E' . $baris, $value->level->level_nama); // ambil nama kategori
+            $baris++;
+            $no++;
+        }
+
+        foreach (range('A', 'E') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
+        }
+
+        $sheet->setTitle('Data User'); // set title sheet
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data User ' . date('Y-m-d H:i:s') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer->save('php://output');
+        exit;
+    } // end function export excel
 }
