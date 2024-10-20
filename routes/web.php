@@ -273,5 +273,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/supplier/import', [SupplierController::class, 'import']);     // ajax form upload excel
         Route::post('/supplier/import_ajax', [SupplierController::class, 'import_ajax']);     // ajax import excel 
         Route::get('/supplier/export_excel', [SupplierController::class, 'export_excel']);
+        Route::get('/supplier/export_pdf', [SupplierController::class, 'export_pdf']);
     });
 });
