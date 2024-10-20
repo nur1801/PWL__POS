@@ -49,31 +49,31 @@ class LevelController extends Controller
     public function list(Request $request)
     {
         $level = LevelModel::select('level_id', 'level_kode', 'level_nama');
-        
+
         // Filter data user berdasarkan level_id
         if ($request->level_id) {
             $level->where('level_id', $request->level_id);
         }
-        
+
         return DataTables::of($level)
-        ->addIndexColumn() //menambahkan kolom index / no urut
-        ->addColumn('aksi', function ($level) {
-            // $btn = '<a href="'.url('/level/' . $level->level_id).'" class="btn btn-info btn-sm">Detail</a>';
-            // $btn .= '<a href="'.url('/level/' . $level->level_id. '/edit').'" class="btn btn-warning btn-sm">Edit</a>';
-            // $btn .= '<form class="d-inline-block" method="POST" action="'.url('/level/'.$level->level_id).'">'. 
-            // csrf_field() . method_field('DELETE') .
-            // '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
-            // [JS06] Tugas Pratikum m_level
-            $btn  = '<button onclick="modalAction(\'' . url('/level/' . $level->level_id .
+            ->addIndexColumn() //menambahkan kolom index / no urut
+            ->addColumn('aksi', function ($level) {
+                // $btn = '<a href="'.url('/level/' . $level->level_id).'" class="btn btn-info btn-sm">Detail</a>';
+                // $btn .= '<a href="'.url('/level/' . $level->level_id. '/edit').'" class="btn btn-warning btn-sm">Edit</a>';
+                // $btn .= '<form class="d-inline-block" method="POST" action="'.url('/level/'.$level->level_id).'">'. 
+                // csrf_field() . method_field('DELETE') .
+                // '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
+                // [JS06] Tugas Pratikum m_level
+                $btn  = '<button onclick="modalAction(\'' . url('/level/' . $level->level_id .
                     '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-            $btn .= '<button onclick="modalAction(\'' . url('/level/' . $level->level_id .
+                $btn .= '<button onclick="modalAction(\'' . url('/level/' . $level->level_id .
                     '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-            $btn .= '<button onclick="modalAction(\'' . url('/level/' . $level->level_id .
+                $btn .= '<button onclick="modalAction(\'' . url('/level/' . $level->level_id .
                     '/delete_ajax') . '\')"  class="btn btn-danger btn-sm">Hapus</button> ';
-            return $btn;    
-        })
-        ->rawColumns(['aksi']) //memberitahu bahwa kolom aksi adalah html
-        ->make(true);
+                return $btn;
+            })
+            ->rawColumns(['aksi']) //memberitahu bahwa kolom aksi adalah html
+            ->make(true);
     }
 
     // Menampilkan halaman form tambah level
@@ -155,7 +155,7 @@ class LevelController extends Controller
     {
         $request->validate([
             // level_kode harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di tabel m_level kolom level_kode
-            'level_kode' => 'required|string |min:3|unique:m_level,level_kode,'.$id.',level_id',
+            'level_kode' => 'required|string |min:3|unique:m_level,level_kode,' . $id . ',level_id',
             'level_nama' => 'required|string|max:100', // level_nama harus diisi, berupa string, dan maksimal 100 karakter
         ]);
 
@@ -183,7 +183,7 @@ class LevelController extends Controller
 
             // Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
             return redirect('/level')->with('error', 'Data level gagal dihapus');
-        }  
+        }
     }
 
     // [JS06] Tugas Pratikum m_level ajax
@@ -228,7 +228,7 @@ class LevelController extends Controller
     public function edit_ajax(string $id)
     {
         $level = LevelModel::find($id);
-        
+
         // Jika level tidak ditemukan
         if (!$level) {
             return response()->json([
@@ -374,4 +374,55 @@ class LevelController extends Controller
         }
         return redirect('/');
     }
+
+    public function export_excel()
+    {
+        // ambil data level yang akan di export
+        $level = LevelModel::select('level_kode', 'level_nama')
+            ->get();
+        // load library excel
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+
+        $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
+
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Level Kode');
+        $sheet->setCellValue('C1', 'Level Nama');
+
+        $sheet->getStyle('A1:C1')->getFont()->setBold(true); // bold header
+        $no = 1;  // nomor data dimulai dari 1
+        $baris = 2; // baris data dimulai dari baris ke 2
+
+        foreach ($level as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->level_kode);
+            $sheet->setCellValue('C' . $baris, $value->level_nama);
+            $baris++;
+            $no++;
+        }
+
+        foreach (range('A', 'C') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
+        }
+
+        $sheet->setTitle('Data Level'); // set title sheet
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data level ' . date('Y-m-d H:i:s') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer->save('php://output');
+        exit;
+    } // end function export excel
 }
