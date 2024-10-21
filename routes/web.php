@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -274,5 +275,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/supplier/import_ajax', [SupplierController::class, 'import_ajax']);     // ajax import excel 
         Route::get('/supplier/export_excel', [SupplierController::class, 'export_excel']);
         Route::get('/supplier/export_pdf', [SupplierController::class, 'export_pdf']);
+    });
+
+    Route::group(['prefix' =>'profile','middleware'=>'authorize:ADM,MNG,STF,CUS'],function(){
+        Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+        Route::patch('/{id}', [ProfileController::class, 'update'])->name('profile.update');
     });
 });
