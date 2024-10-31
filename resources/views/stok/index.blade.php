@@ -4,11 +4,14 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('/barang/export_excel') }}"><i  class="fa fa-file-excel"></i>Export Barang</a>
-                <a class="btn btn-sm btn-warning mt-1" href="{{ url('/barang/export_pdf') }}" class="btn btn-warning"><i
-                    class="fa fa-file-pdf"></i> Export Barang</a>
-                <button onclick="modalAction('{{url('barang/import')}}')" class="btn btn-sm btn-info mt-1">Import Barang</button>
-                <button onclick="modalAction('{{ url('barang/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <a href="{{ url('/stok/export_excel') }}" class="btn btn-sm btn-primary mt-1"><i class="fa fa-file-excel"></i>
+                    Export Stok</a>
+                <a href="{{ url('/stok/export_pdf') }}" class="btn btn-sm btn-warning mt-1"><i class="fa fa-file-pdf"></i>
+                    Export Stok</a>
+                <button onclick="modalAction('{{ url('stok/import/') }}')" class="btn btn-sm btn-info mt-1"> Import
+                    Stok</button>
+                <button onclick="modalAction('{{ url('stok/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah
+                    Ajax</button>
             </div>
         </div>
         <div class="card-body">
@@ -23,27 +26,27 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Filter </label>
                         <div class="col-3">
-                            <select class="form-control" id="kategori_id" name="kategori_id" required>
+                            <select class="form-control" id="supplier_id" name="supplier_id" required>
                                 <option value="">- Semua -</option>
-                                @foreach ($kategori as $item)
-                                    <option value="{{ $item->kategori_id }}">{{ $item->kategori_nama }}</option>
+                                @foreach ($supplier as $item)
+                                    <option value="{{ $item->supplier_id }}">{{ $item->supplier_nama }}</option>
                                 @endforeach
                             </select>
-                            <small class="form-text text-muted">Kategori Barang</small>
+                            <small class="form-text text-muted">Supplier Barang</small>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
+                <table class="table table-bordered table-striped table-hover table-sm" id="table_stok">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nama barang</th>
-                            <th>Kode barang</th>
-                            <th>Harga beli </th>
-                            <th>Harga jual </th>
-                            <th>Kategori barang </th>
+                            <th>Nama Supplier</th>
+                            <th>Nama Barang</th>
+                            <th>Nama Pegawai</th>
+                            <th>Tanggal Stok </th>
+                            <th>Jumlah Stok</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -63,30 +66,16 @@
                 $('#myModal').modal('show');
             });
         }
-        var dataBarang
-        function formatRupiah(angka) {
-            let numberString = angka.toString();
-            let sisa = numberString.length % 3;
-            let rupiah = numberString.substr(0, sisa);
-            let ribuan = numberString.substr(sisa).match(/\d{3}/g);
-
-            if (ribuan) {
-                let separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-
-            return 'Rp ' + rupiah;
-        }
         $(document).ready(function() {
-            dataBarang = $('#table_user').DataTable({
+            dataStok = $('#table_stok').DataTable({
                 // serverSide: true, jika ingin menggunakan server side processing
                 serverSide: true,
                 ajax: {
-                    "url": "{{ url('barang/list') }}",
+                    "url": "{{ url('stok/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function(d) {
-                        d.kategori_id = $('#kategori_id').val();
+                        d.supplier_id = $('#supplier_id').val();
                     }
                 },
                 columns: [{
@@ -96,37 +85,31 @@
                         searchable: false
                     },
                     {
-                        data: "barang_nama",
+                        data: "supplier.supplier_nama",
                         className: "",
                         orderable: true,
                         searchable: true
                     },
                     {
-                        data: "barang_kode",
+                        data: "barang.barang_nama",
                         className: "",
                         orderable: true,
                         searchable: true
                     },
                     {
-                        data: "harga_beli",
+                        data: "user.nama",
                         className: "",
-                        orderable: true,
+                        orderable: false,
                         searchable: false,
-                        render: function(data, type, row){
-                            return formatRupiah(data)
-                        }
                     },
                     {
-                        data: "harga_jual",
+                        data: "stok_tanggal",
                         className: "",
                         orderable: true,
-                        searchable: false,
-                        render: function(data, type, row){
-                            return formatRupiah(data)
-                        }
+                        searchable: true
                     },
                     {
-                        data: "kategori.kategori_nama",
+                        data: "stok_jumlah",
                         className: "",
                         orderable: true,
                         searchable: true
@@ -140,8 +123,8 @@
                 ]
 
             });
-            $('#kategori_id').on('change', function() {
-                dataBarang.ajax.reload();
+            $('#supplier_id').on('change', function() {
+                dataStok.ajax.reload();
             })
         });
     </script>

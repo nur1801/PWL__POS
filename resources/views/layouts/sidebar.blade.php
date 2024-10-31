@@ -19,12 +19,12 @@
                     <p>Dashboard</p>
                 </a>
             </li>
-            <li class="nav-item"> 
+            {{-- <li class="nav-item"> 
                 <a href="{{ route('profile.index') }}" class="nav-link  {{ ($activeMenu == 'profile')? 'active' : '' }} "> 
                   <i class="nav-icon fas fa-user-tie"></i> 
                   <p>Profil</p> 
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-header">Data Pengguna</li>
             <li class="nav-item">
                 <a href="{{ url('/level') }}" class="nav-link {{ $activeMenu == 'level' ? 'active' : '' }} ">
@@ -65,11 +65,12 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/barang') }}" class="nav-link {{ $activeMenu == 'penjualan' ? 'active' : '' }} ">
+                <a href="{{ url('/penjualan') }}" class="nav-link {{ $activeMenu == 'penjualan' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-cash-register"></i>
                     <p>Transaksi Penjualan</p>
                 </a>
             </li>
+            <br>
             <br>
             <!-- Logout Button -->
             <li class="nav-item">
