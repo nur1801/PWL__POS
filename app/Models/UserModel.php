@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable; // implementasi class Authenticatable
 // [JS10] Pratikum 1 - Membuat RESTful API Register
 use Tymon\JWTAuth\Contracts\JWTSubject;
+// [JS11] Pratikum 1 – Implementasi Eloquent Accessor
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 // class UserModel extends Model
 // {
@@ -46,7 +48,7 @@ class UserModel extends Authenticatable implements JWTSubject
 
   protected $table = 'm_user';        // Mendefinisikan nama tabel yang digunakan oleh model ini
   protected $primaryKey = 'user_id';  // Mendfinisikan primary key dari tabel yang digunakan
-  protected $fillable = ['username', 'password', 'nama', 'level_id', 'created_at', 'updated_at'];
+  protected $fillable = ['username', 'password', 'nama', 'level_id', 'avatar', 'image', 'created_at', 'updated_at'];
   protected $hidden = ['password']; // jangan di tampilkan saat select
   protected $casts = ['password' => 'hashed']; // casting password agar otomatis dihash
 
@@ -81,5 +83,11 @@ class UserModel extends Authenticatable implements JWTSubject
   public function getRole()
   {
     return $this->level->level_kode;
+  }
+  protected function image(): Attribute
+  {
+    return Attribute::make(
+      get: fn($image) => url('/storage/posts/' . $image),
+    );
   }
 }

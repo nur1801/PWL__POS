@@ -24,6 +24,8 @@ use App\Http\Controllers\Api\BarangController;
 
 // [JS10] Pratikum 1 - Membuat RESTful API Register
 Route::post('/register', App\Http\Controllers\Api\RegisterController::class)->name('register');
+// [JS11] Pratikum 1 – Implementasi Eloquent Accessor
+Route::post('/register1', App\Http\Controllers\Api\RegisterController::class)->name('register1');
 
 Route::post('/login', App\Http\Controllers\Api\LoginController::class)->name('login');
 Route::middleware('auth:api')->get('/user', function (Request $request){
