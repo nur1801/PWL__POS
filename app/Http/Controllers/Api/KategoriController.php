@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\KategoriModel;
+use Illuminate\Validation\ValidationException;
 
 class KategoriController extends Controller
 {
@@ -15,6 +16,22 @@ class KategoriController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi untuk mengecek apakah kategori_kode sudah ada
+        $request->validate([
+            'kategori_kode' => 'required',
+            // Tambahkan validasi lain jika diperlukan
+        ]);
+
+        // Cek apakah kategori_kode sudah ada di database
+        $existingKategori = KategoriModel::where('kategori_kode', $request->kategori_kode)->first();
+        if ($existingKategori) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategori dengan kode ini sudah ada.',
+            ], 400);
+        }
+
+        // Jika kategori_kode belum ada, maka simpan data
         $kategori = KategoriModel::create($request->all());
         return response()->json($kategori, 201);
     }
